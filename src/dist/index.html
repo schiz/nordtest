@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html id="myDiv1" lang="en" ng-app="addPersonApp">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Test task for Nord</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
+    <meta name="HandheldFriendly" content="true"/>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+  </head>
+  <body ng-controller="PersonListCtrl">
+    <header><i class="s-global s-logo"></i></header>
+    <div class="container">
+      <h1>Add a person</h1>
+      <div class="add-person-form">
+        <input type="text" placeholder="Name" class="name-input"/>
+        <select class="gender-input">
+          <option disabled="disabled" selected="selected">Gender</option>
+          <option>Male</option>
+          <option>Female</option>
+        </select>
+        <input type="number" placeholder="Age" class="age-input"/><a href="#" class="btn btn-default add-person-btn"><i class="svg-common svg-ic_add_black_36px"></i></a>
+      </div>
+      <h4>Total persons : {{persons.length}}</h4>
+      <h4>Current page : {{currentPage}}</h4>
+      <table class="person-table table table-striped">
+        <thead>
+          <tr>
+            <th><span>Name</span><i class="svg-common svg-ic_sort_black_24px"></i></th>
+            <th><span>Gender</span><i class="svg-common svg-ic_sort_black_24px"></i></th>
+            <th> <span>Age</span><i class="svg-common svg-ic_sort_black_24px"></i></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr dir-paginate="person in persons | itemsPerPage: pageSize" current-page="currentPage">
+            <td>{{person.name()}}</td>
+            <td>{{person.gender()}}</td>
+            <td>{{person.age()}}</td>
+            <td><i class="svg-common svg-ic_close_black_24px"></i><i class="svg-common svg-ic_edit_black_24px"></i></td>
+          </tr>
+        </tbody>
+      </table>
+      <div>
+        <dir-pagination-controls boundary-links="true" template-url="dirPagination.tpl.html"></dir-pagination-controls>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="js/controller.js"></script>
+    <script src="js/dirPagination.js"></script>
+  </body>
+</html>
