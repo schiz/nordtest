@@ -26,7 +26,8 @@ var gulp             = require('gulp'),
     watch            = require('gulp-watch'),
     gzip             = require('gulp-gzip'),
     compress         = require('compression'),
-    middleware       = require('connect-gzip-static')('./src/dist/');
+    middleware       = require('connect-gzip-static')('./src/dist/'),
+    babel            = require("gulp-babel");
 
 // --------------------------------------------------------
 
@@ -54,6 +55,7 @@ var path = {
     del_styl: 'src/app/stylus/partials/*sprite.styl',
     // angular: 'src/app/js/jslibs/angular.min.js',
     js: 'src/app/js/**/*.js',
+    tmpl: 'src/app/tmpl/**/*.*',
     watch_stylus: 'src/app/stylus/**/*.styl'
   },
 
@@ -65,7 +67,8 @@ var path = {
     minified_html: 'src/dist/',
     css: 'src/dist/css/',
     js: 'src/dist/js/',
-    pngSprite: 'src/dist/css/sprite/'
+    pngSprite: 'src/dist/css/sprite/',
+    tmpl: 'src/dist/tmpl/'
   }
 };
 
@@ -190,6 +193,10 @@ function compileJade() {
     .pipe(jade({pretty: true}))
     // .pipe(gzip(gzip_opts))
     .pipe(gulp.dest(path.dist.minified_html))
+    .on('end', function() {
+      gulp.src(path.app.tmpl)
+      .pipe(gulp.dest(path.dist.tmpl));
+    })
     .pipe(reload({stream: true}));
 }
 
@@ -224,6 +231,7 @@ function compileJS() {
     // .pipe(concat('sapp.js', {newLine: ';'}))
     // .pipe(uglify())
     // .pipe(gzip(gzip_opts))
+    .pipe(babel())
     .pipe(gulp.dest(path.dist.js))
     .pipe(reload({stream: true}));
 }

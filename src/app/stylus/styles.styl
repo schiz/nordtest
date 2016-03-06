@@ -1,5 +1,4 @@
 @import 'partials/normalize.styl'
-// @import 'partials/foundation.min.css'
 @import 'partials/mixins.styl'
 @import 'partials/variables.styl'
 @import 'partials/svg-sprite.styl'
@@ -60,6 +59,7 @@ button
   border-image-width none
   border-image-outset none
   border-image-repeat none
+  outline none !important
 
 ul    
   list-style-type disc;
@@ -77,12 +77,25 @@ hr
   border-top 1px solid #dce0e0
 
 
+@font-face {
+  font-family: 'helvetica_neueregular';
+  src: url('../fonts/helveticaneue-thin.eot');
+  src: url('../fonts/helveticaneue-thin.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/helveticaneue-thin.woff2') format('woff2'),
+       url('../fonts/helveticaneue-thin.woff') format('woff'),
+       url('../fonts/helveticaneue-thin.ttf') format('truetype'),
+       url('../fonts/helveticaneue-thin.svg#helvetica_neueregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
 body
   clearfix()
   
   header
     width 100%
-    height 4.6rem
+    height 7.4rem
     background-color headerBlue
     lost-align vertical
     
@@ -93,52 +106,194 @@ body
     lost-center 852px
     padding 2rem 0
     
+    .add-person-heading
+      margin-top 6.3rem
+      font normal 4rem helvetica_neueregular
+      letter-spacing .1rem
+    
     .add-person-form
-      margin-top 2rem
-      height 5rem
-      input
-      select
+      margin-top 4.4rem
+      height 6rem
+      clearfix()
+      .form-group
         height inherit
-        font-size 2rem
-        padding 0 2rem
-      
-      .name-input
-        lost-column 5/12
-      
-      .gender-input
-        lost-column 2.5/12
-      
-      .age-input
-        lost-column 3/12
-      
-      .add-person-btn
-        lost-column 1.5/12
+        position relative
+        input
+        select
+          height inherit
+          font bold 2rem helvetica_neueregular
+          padding 0 2rem
+          background-color inputBgGray
+        i
+          position absolute
+          right 1.5rem
+          top calc((6rem - 2.1rem)/2)
+        .form-control-feedback
+          top calc((6rem - 3.4rem)/2)
+        &:nth-of-type(1)
+          lost-column 5.9/12
+          input
+            padding-right 3rem
+        &:nth-of-type(2)
+          lost-column 2.4/12
+        &:nth-of-type(3)
+          lost-column 2.3/12
+        &:nth-of-type(2)
+        &:nth-of-type(3)
+          .form-control-feedback
+            right 2.5rem
+          
+      button
+        height inherit
+        font-size 1.5rem
+        padding 0
+        lost-column 1.4/12
+        lost-align center
+        background-color inputBgGray
     
     .person-table
-      margin-top 5rem
+      margin-top 11rem
       
-      th
-        font-size 1.5rem
-        span
-          float left
-        i
-          float left
-          margin-left 1rem
+      thead
+        tr
+          th
+            height 6rem
+            lost-align vertical
+            border none
+            padding 0
+            &:nth-of-type(1)
+              lost-column 5.9/12
+              padding 0 .8rem
+            &:nth-of-type(2)
+              lost-column 2.4/12
+            &:nth-of-type(3)
+              lost-column 2/12
+            &:nth-of-type(4)
+              lost-column 1.7/12
+            a
+              float left
+              color tableHeadingColor
+              font bold 1.6rem helvetica_neueregular
+              letter-spacing 0.2rem
+              i
+                float right
+                margin-left 1.2rem
+            &:nth-of-type(1) a
+              padding 0 2rem
+      tbody
+        tr
+          height 6.5rem
+          td
+            height inherit
+            font bold 2rem helvetica_neueregular
+            padding 0
+            clearfix()
+            .css-form
+              height 100%
+            input
+            select
+              height 4.5rem
+              margin-top calc((6.5rem - 4.5rem)/2)
+              font-size 1.6rem
+            &:nth-of-type(1)
+              lost-column 5.9/12
+              padding 0 3rem
+            &:nth-of-type(2)
+              lost-column 2.4/12
+            &:nth-of-type(3)
+              lost-column 1.7/12
+            &:nth-of-type(4)
+              lost-column 2/12
+            &:nth-of-type(1)
+            &:nth-of-type(2)
+            &:nth-of-type(3)
+              flex-center-vertical()
+            &:nth-of-type(2)
+            &:nth-of-type(3)
+              select
+                position relative
+              i
+                position absolute
+                top calc((4.5rem - 2.1rem)/2)
+                right 1rem
+              .form-control-feedback
+                right 2rem
+              
+            
+            .form-control-feedback
+              margin-top calc((4.5rem - 3.4rem)/2)
+            
+            button
+              background none
+              width 50%
+              height 2.5rem
+              margin-top calc((6.5rem - 2.5rem)/2)
+              float left
+              cursor pointer
+              opacity .4
+              hover-opacity()
+              transition()
+              &:nth-of-type(3)
+                border-left solid 1px gray
+       
+.pagination
+  li
+    a
+      margin 0 1rem
+      border-radius 50%
+      color #3c3434 !important
+      border none !important
+    &.active
+      a
+        background-color #d5edef !important
+
+.remove-person-popup
+  position fixed
+  z-index 3
+  top 0
+  right 0
+  left 0
+  bottom 0
+  background-color rgba(0, 0, 0, .6)
+  flex-center-vertical()
+  
+  .container
+    height 46.5rem
+    background-color #fff
+    text-align center
+    flex-center-vertical()
+    
+    .remove-person-heading
+      font normal 4rem helvetica_neueregular
+    
+    .remove-notify-text
+      margin-top 4rem
+      font normal 2rem helvetica_neueregular
+    
+    .confirmation-btns
+      margin-top 6rem
+      font normal 4rem helvetica_neueregular
       
-      td
-        font-size 1.3rem
-        i
-          float right
-          margin-left 1rem
-          cursor pointer
-          hover-opacity()
-          transition()
+      button
+        width 22rem
+        height 8rem
+        border-radius 5px
+        text-transform uppercase
+        &:nth-of-type(1)
+          background-color btnBgGray
+          color btnColGray
+        &:nth-of-type(2)
+          margin-left 2.8rem
+          background-color headerBlue
+          color white
       
-      .header-name
-        lost-column 5/12
-      .header-gender
-        lost-column 2.5/12
-      .header-age
-        lost-column 3/12
         
-        
+
+.table-striped tbody tr:nth-child(2n+1)
+  background-color tableStripedBgColor !important
+.table-striped tbody tr  
+  &:hover
+    background-color #d5edef !important
+
+.table-striped tbody tr td
+  border none !important
