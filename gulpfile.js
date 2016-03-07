@@ -26,7 +26,7 @@ var gulp             = require('gulp'),
     watch            = require('gulp-watch'),
     gzip             = require('gulp-gzip'),
     compress         = require('compression'),
-    middleware       = require('connect-gzip-static')('./src/dist/'),
+    middleware       = require('connect-gzip-static')('./dist/'),
     babel            = require("gulp-babel");
 
 // --------------------------------------------------------
@@ -38,37 +38,39 @@ var gulp             = require('gulp'),
 
 var path = {
   app : {
-    fonts: 'src/app/fonts/**/*.*',
-    initial_img: 'src/app/img/initial/**/*.*',
-    compressed_img: 'src/app/img/compressed/',
-    imgForSprite: 'src/app/img/compressed/*.png',
-    imgForRetinaSprite: 'src/app/img/compressed/*@2x.png',
-    spriteCss: 'src/app/stylus/partials/',
-    del_compressed_img: 'src/app/img/compressed/*',
-    compressed_img_bkg: 'src/app/img/compressed/bkg/**/*.*',
-    minified_svg: 'src/app/img/compressed/ico/**/*.svg',
-    sprite_svg: 'src/app/stylus/partials/',
-    del_sprite_partials: 'src/app/stylus/partials/sprite/*',
-    sprite_svg_img: 'src/app/stylus/partials/sprite/svg-sprite.svg',
-    jade: 'src/app/jade/*.jade',
-    stylus: 'src/app/stylus/*.styl',
-    del_styl: 'src/app/stylus/partials/*sprite.styl',
-    // angular: 'src/app/js/jslibs/angular.min.js',
-    js: 'src/app/js/**/*.js',
-    tmpl: 'src/app/tmpl/**/*.*',
-    watch_stylus: 'src/app/stylus/**/*.styl'
+    fonts: 'app/fonts/**/*.*',
+    initial_img: 'app/img/initial/**/*.*',
+    compressed_img: 'app/img/compressed/',
+    imgForSprite: 'app/img/compressed/*.png',
+    imgForRetinaSprite: 'app/img/compressed/*@2x.png',
+    spriteCss: 'app/stylus/partials/',
+    del_compressed_img: 'app/img/compressed/*',
+    compressed_img_bkg: 'app/img/compressed/bkg/**/*.*',
+    minified_svg: 'app/img/compressed/ico/**/*.svg',
+    sprite_svg: 'app/stylus/partials/',
+    del_sprite_partials: 'app/stylus/partials/sprite/*',
+    sprite_svg_img: 'app/stylus/partials/sprite/svg-sprite.svg',
+    jade: 'app/jade/*.jade',
+    stylus: 'app/stylus/*.styl',
+    del_styl: 'app/stylus/partials/*sprite.styl',
+    // angular: 'app/js/jslibs/angular.min.js',
+    js: 'app/js/**/*.js',
+    bowerComponents: 'app/bower_components/**/*.*',
+    views: 'app/jade/views/**/*.*',
+    watch_stylus: 'app/stylus/**/*.styl'
   },
 
   dist: {
-    del: 'src/dist/*',
-    fonts: 'src/dist/fonts/',
-    bkg_img: 'src/dist/css/bkg',
-    svg_sprite: 'src/dist/css/sprite/',
-    minified_html: 'src/dist/',
-    css: 'src/dist/css/',
-    js: 'src/dist/js/',
-    pngSprite: 'src/dist/css/sprite/',
-    tmpl: 'src/dist/tmpl/'
+    del: 'dist/*',
+    fonts: 'dist/fonts/',
+    bkg_img: 'dist/css/bkg',
+    svg_sprite: 'dist/css/sprite/',
+    minified_html: 'dist/',
+    css: 'dist/css/',
+    js: 'dist/js/',
+    pngSprite: 'dist/css/sprite/',
+    views: 'dist/views/',
+    bowerComponents: 'dist/bower_components'
   }
 };
 
@@ -98,6 +100,10 @@ function copyFonts() {
   return gulp.src(path.app.fonts)
     .pipe(plumber())
     .pipe(gulp.dest(path.dist.fonts))
+    .on('end', function() {
+      gulp.src(path.app.bowerComponents)
+      .pipe(gulp.dest(path.dist.bowerComponents));
+    })
     .pipe(reload({stream: true}));
 }
 
@@ -194,8 +200,8 @@ function compileJade() {
     // .pipe(gzip(gzip_opts))
     .pipe(gulp.dest(path.dist.minified_html))
     .on('end', function() {
-      gulp.src(path.app.tmpl)
-      .pipe(gulp.dest(path.dist.tmpl));
+      gulp.src(path.app.views)
+      .pipe(gulp.dest(path.dist.views));
     })
     .pipe(reload({stream: true}));
 }
@@ -306,7 +312,7 @@ gulp.task('build', [
 // Config for devServer
 var serverConfig = {
   server: {
-    baseDir: "src/dist/",
+    baseDir: "dist/",
     // Comment LoC 257 for non-gzip build.
     // middleware: [compress()]
     // Uncomment LoC 259 - 262 for non-gzip build.
@@ -315,7 +321,7 @@ var serverConfig = {
       next();
     }
   },
-  files: ['src/dist/*.html', 'src/dist/css/*.css', 'src/dist/css/sprite/*.svg', 'src/dist/js/*.js'],
+  files: ['dist/*.html', 'dist/css/*.css', 'dist/css/sprite/*.svg', 'dist/js/*.js'],
   tunnel: false,
   host: 'localhost',
   port: 3000,
