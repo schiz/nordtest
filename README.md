@@ -1,6 +1,9 @@
 # nordtest
 
-1. `git clone https://github.com/schiz/nordtest.git` Download project
+## Instructrions
+
+1. `git clone https://github.com/schiz/nordtest.git` 
+Download project
 2. `cd nordtest` Move to project directory
 3. `npm install` Install npm packages from package.json
 4. `bower install` Install bower packages from bower.json
