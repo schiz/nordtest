@@ -6,6 +6,7 @@
 2. Move to project directory `cd nordtest` 
 3. Install npm packages from package.json `npm install`
 4. Install bower packages from bower.json `bower install`
+5. Replace `../node-modules/svg-sprite/tmpl/css/sprite.styl` with `../RefactoredSvgTmpl/sprite.styl`
 5. Build project `gulp watch`
 
 ## Test task checkpoints
