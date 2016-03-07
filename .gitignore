@@ -6,3 +6,6 @@
 
 #Node modules
 node_modules/
+
+#Bower packages
+app/bower_components/
