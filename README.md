@@ -1,5 +1,20 @@
 # nordtest
 
+Download project
+`git clone https://github.com/schiz/nordtest.git`
+
+Move to project directory
+`cd nordtest`
+
+Install npm packages from package.json
+`npm install`
+
+Install bower packages from bower.json
+`bower install`
+
+Build project
+`gulp watch`
+
 - Done: Generate 100 users containing randomized values for the following properties: id (string), name (string), gender (male or female), and age (number)
 - Done: Render a table that displays the users on individual rows
 - Done: Create a form for adding new users to the table (remember to validate the form)
