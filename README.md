@@ -1,4 +1,5 @@
 # nordtest
+Person list application in AngularJS 1.5.0
 
 ## Instructrions
 
