@@ -10,7 +10,8 @@
 5. Build project `gulp watch`
 
 ## Test task checkpoints
-- Done: Generate 100 users containing randomized values for the following properties: id (string), name (string), gender (male or female), and age (number)
+- Generate 100 users containing randomized values for the following properties: id (string), name (string), gender (male or female), and age (number)
+**Done:** desc
 - Done: Render a table that displays the users on individual rows
 - Done: Create a form for adding new users to the table (remember to validate the form)
 - Done: Paginate the data so that each page contains 20 users
