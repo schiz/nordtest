@@ -96,7 +96,7 @@ function emptyFolders() {
     ]);
 }
 
-function copyFonts() {
+function copyFiles() {
   return gulp.src(path.app.fonts)
     .pipe(plumber())
     .pipe(gulp.dest(path.dist.fonts))
@@ -255,8 +255,8 @@ gulp.task('emptyFolders', function () {
 });
 
 // Copy fonts from app to dist
-gulp.task('copyFonts', ['emptyFolders'], function() {
-  return copyFonts();
+gulp.task('copyFiles', ['emptyFolders'], function() {
+  return copyFiles();
 });
 
 // Compress jpg & png
@@ -297,7 +297,7 @@ gulp.task('compileJS', ['emptyFolders'], function() {
 // --------------------------------------------------------
 gulp.task('build', [
   'emptyFolders',
-  'copyFonts',
+  'copyFiles',
   'minifyImg',
   'createSpriteSvg',
   'createSprite',
@@ -354,7 +354,7 @@ gulp.task('webserver', ['build'], function () {
 gulp.task('watch', ['webserver'], function() {
 
   watch(path.app.fonts, function() {
-    return copyFonts();
+    return copyFiles();
   });
   
   watch(path.app.initial_img, function() {
