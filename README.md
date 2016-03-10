@@ -43,9 +43,6 @@ Person list application in AngularJS 1.5.0
 ---
 
 - **Task :** Make each column sortable upon clicking on a column header (remember to support both ascending and descending order).
-
----
-
 - **Implementation :** Implemeted via ng-filter orderBy:sortType:sortReverse
 
 ---
@@ -54,16 +51,17 @@ Person list application in AngularJS 1.5.0
 
 ---
 
-- **Task :** Done (stylus, lost, bootstrap) : Using a CSS framework and a CSS pre-processor
+- **Task :** Using a CSS framework and a CSS pre-processor
+- **Implementation :** Used bootstrap, stylus, lost
 
 ---
 
-- **Task :** ? : Persisting the data in the browser
+- **Task :** Persisting the data in the browser
 
 ---
 
-- **Task :** ? : Using a state container such as Redux
+- **Task :** Using a state container such as Redux
 
 ---
 
-- **Task :** ? : Adding CSS transitions where appropriate
+- **Task :** Adding CSS transitions where appropriate
