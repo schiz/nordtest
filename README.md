@@ -41,10 +41,27 @@
 ---
 
 - **Task :** Make each column sortable upon clicking on a column header (remember to support both ascending and descending order).
+
+---
+
 - **Implementation :** Implemeted via ng-filter orderBy:sortType:sortReverse
 
+---
+
 - **Task :** Done (used gulp-babel) : Using a transpiler and ES.next
+
+---
+
 - **Task :** Done (stylus, lost, bootstrap) : Using a CSS framework and a CSS pre-processor
+
+---
+
 - **Task :** ? : Persisting the data in the browser
+
+---
+
 - **Task :** ? : Using a state container such as Redux
+
+---
+
 - **Task :** ? : Adding CSS transitions where appropriate
