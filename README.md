@@ -1,5 +1,6 @@
 # nordtest
 Person list application in AngularJS 1.5.0
+![alt text](https://github.com/schiz/nordtest/raw/master/pics/personlist.png "Person list app")
 
 ## Instructrions
 
