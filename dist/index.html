@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html id="myDiv1" lang="en" ng-app="addPersonApp">
+<html lang="en" ng-app="PersonApp">
   <head>
     <meta charset="UTF-8"/>
     <title>Test task for Nord</title>
@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="css/styles.css"/>
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
   </head>
-  <body ng-controller="PersonListCtrl">
+  <body>
     <header><i class="s-global s-logo"></i></header>
-    <div class="container">
+    <div ng-controller="AddPersonCtrl" class="container">
       <h3 class="add-person-heading">Add a person</h3>
       <form name="personForm" ng-submit="submitForm(personForm.$valid); personForm.$setPristine()" novalidate="novalidate" class="css-form add-person-form">
         <div ng-class="{'has-error has-feedback': personForm.name.$invalid &amp;&amp; !personForm.name.$pristine, 'has-success has-feedback': personForm.name.$valid &amp;&amp; !personForm.name.$pristine}" class="form-group">
@@ -21,73 +21,75 @@
           </div><span ng-show="personForm.name.$valid &amp;&amp; !personForm.name.$pristine" aria-hidden="true" class="glyphicon glyphicon-ok form-control-feedback"></span><span ng-show="personForm.name.$invalid &amp;&amp; !personForm.name.$pristine" aria-hidden="true" class="glyphicon glyphicon-remove form-control-feedback"></span>
         </div>
         <div ng-class="{'has-success has-feedback': personForm.gender.$valid}" class="form-group">
-          <select ng-options="genderOpt.value for genderOpt in genderOpts" name="gender" ng-model="gender" required="required" class="form-control">
+          <select ng-options="value for (option, value) in genderOptions" name="gender" ng-model="gender" required="required" class="form-control">
             <option value="" disabled="disabled" selected="selected">Gender</option>
           </select><i class="svg-common svg-select-arrows"></i><span ng-show="personForm.gender.$valid" aria-hidden="true" class="glyphicon glyphicon-ok form-control-feedback"></span>
         </div>
         <div ng-class="{'has-error has-feedback': personForm.age.$invalid &amp;&amp; !personForm.age.$pristine, 'has-success has-feedback': personForm.age.$valid &amp;&amp; !personForm.age.$pristine}" class="form-group">
-          <select ng-options="ageOpt.value for ageOpt in ageOpts" name="age" ng-model="age" required="required" class="form-control">
+          <select ng-options="value for (option, value) in ageOptions" name="age" ng-model="age" required="required" class="form-control">
             <option value="" disabled="disabled" selected="selected">Age</option>
           </select><i class="svg-common svg-select-arrows"></i><span ng-show="personForm.age.$valid" aria-hidden="true" class="glyphicon glyphicon-ok form-control-feedback"></span>
         </div>
         <button type="submit" ng-disabled="personForm.$invalid" class="btn btn-default add-person-btn"><i class="svg-common svg-ic_add_black_36px"></i></button>
       </form>
-      <table class="person-table table table-striped table-hover">
-        <thead>
-          <tr>
-            <th><a href="" ng-click="sortType = 'name'; sortReverse = !sortReverse">Name<i class="svg-common svg-ic_sort_black_24px"></i></a></th>
-            <th><a href="" ng-click="sortType = 'gender.value'; sortReverse = !sortReverse">Gender<i class="svg-common svg-ic_sort_black_24px"></i></a></th>
-            <th> <a href="" ng-click="sortType = 'age.value'; sortReverse = !sortReverse">Age<i class="svg-common svg-ic_sort_black_24px"></i></a></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr dir-paginate="person in persons | orderBy:sortType:sortReverse | itemsPerPage: pageSize" current-page="currentPage">
-            <td><span ng-hide="editingPersons[person.id]" ng-click="modify(person)">{{person.name}}</span>
-              <div ng-show="editingPersons[person.id]" ng-form="ng-form" name="editPerson" novalidate="novalidate" class="css-form">
-                <div ng-class="{'has-error has-feedback': editPerson.name.$invalid, 'has-success has-feedback': editPerson.name.$valid}" class="form-group">
-                  <input ng-show="editingPersons[person.id]" type="text" name="name" ng-model="person.name" ng-minlength="3" ng-maxlength="10" ng-pattern="textval" required="required" class="form-control"/>
-                  <div ng-messages="editPerson.name.$error" class="help-block">
-                    <div ng-messages-include="views/validation_messages/textInput.html"></div>
-                  </div><span ng-show="editPerson.name.$valid" aria-hidden="true" class="glyphicon glyphicon-ok form-control-feedback"></span><span ng-show="editPerson.name.$invalid" aria-hidden="true" class="glyphicon glyphicon-remove form-control-feedback"></span>
+      <div ng-controller="PersonListCtrl">
+        <table class="person-table table table-striped table-hover">
+          <thead>
+            <tr>
+              <th><a href="" ng-click="sortType = 'name'; sortReverse = !sortReverse">Name<i class="svg-common svg-ic_sort_black_24px"></i></a></th>
+              <th><a href="" ng-click="sortType = 'gender'; sortReverse = !sortReverse">Gender<i class="svg-common svg-ic_sort_black_24px"></i></a></th>
+              <th> <a href="" ng-click="sortType = 'age'; sortReverse = !sortReverse">Age<i class="svg-common svg-ic_sort_black_24px"></i></a></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr dir-paginate="person in persons | orderBy:sortType:sortReverse | itemsPerPage: pageSize" current-page="currentPage">
+              <td><span ng-hide="editingPersons[person.id]" ng-click="modify(person)">{{person.name}}</span>
+                <div ng-show="editingPersons[person.id]" ng-form="ng-form" name="editPerson" novalidate="novalidate" class="css-form">
+                  <div ng-class="{'has-error has-feedback': editPerson.name.$invalid, 'has-success has-feedback': editPerson.name.$valid}" class="form-group">
+                    <input ng-show="editingPersons[person.id]" type="text" name="name" ng-model="person.name" ng-minlength="3" ng-maxlength="10" ng-pattern="textval" required="required" class="form-control"/>
+                    <div ng-messages="editPerson.name.$error" class="help-block">
+                      <div ng-messages-include="views/validation_messages/textInput.html"></div>
+                    </div><span ng-show="editPerson.name.$valid" aria-hidden="true" class="glyphicon glyphicon-ok form-control-feedback"></span><span ng-show="editPerson.name.$invalid" aria-hidden="true" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                  </div>
                 </div>
-              </div>
-            </td>
-            <td> <span ng-hide="editingPersons[person.id]" ng-click="modify(person)">{{person.gender.value}}</span>
-              <div ng-show="editingPersons[person.id]" ng-form="ng-form" name="editPersonGender" novalidate="novalidate" class="css-form">
-                <div ng-class="{'has-success has-feedback': editPersonGender.gender.$valid}" class="form-group">
-                  <select ng-show="editingPersons[person.id]" ng-options="genderOpt.value for genderOpt in genderOpts" name="gender" ng-model="person.gender" class="form-control">
-                    <option value="" disabled="disabled" selected="selected">{{person.gender.value}}</option>
-                  </select><i class="svg-common svg-select-arrows"></i>
+              </td>
+              <td> <span ng-hide="editingPersons[person.id]" ng-click="modify(person)">{{person.gender}}</span>
+                <div ng-show="editingPersons[person.id]" ng-form="ng-form" name="editPersonGender" novalidate="novalidate" class="css-form">
+                  <div ng-class="{'has-success has-feedback': editPersonGender.gender.$valid}" class="form-group">
+                    <select ng-show="editingPersons[person.id]" ng-options="value for (option, value) in genderOptions" name="gender" ng-model="person.gender" class="form-control">
+                      <option value="" disabled="disabled" selected="selected">{{person.gender}}</option>
+                    </select><i class="svg-common svg-select-arrows"></i>
+                  </div>
                 </div>
-              </div>
-            </td>
-            <td><span ng-hide="editingPersons[person.id]" ng-click="modify(person)">{{person.age.value}}</span>
-              <div ng-show="editingPersons[person.id]" ng-form="ng-form" name="editPersonAge" novalidate="novalidate" class="css-form">
-                <div ng-class="{'has-success has-feedback': editPersonAge.age.$valid}" class="form-group">
-                  <select ng-show="editingPersons[person.id]" ng-options="ageOpt.value for ageOpt in ageOpts" name="age" ng-model="person.age" required="required" class="form-control">
-                    <option value="" disabled="disabled" selected="selected">{{person.age.value}}</option>
-                  </select><i class="svg-common svg-select-arrows"></i>
+              </td>
+              <td><span ng-hide="editingPersons[person.id]" ng-click="modify(person)">{{person.age}}</span>
+                <div ng-show="editingPersons[person.id]" ng-form="ng-form" name="editPersonAge" novalidate="novalidate" class="css-form">
+                  <div ng-class="{'has-success has-feedback': editPersonAge.age.$valid}" class="form-group">
+                    <select ng-show="editingPersons[person.id]" ng-options="value for (option, value) in ageOptions" name="age" ng-model="person.age" required="required" class="form-control">
+                      <option value="" disabled="disabled" selected="selected">{{person.age}}</option>
+                    </select><i class="svg-common svg-select-arrows"></i>
+                  </div>
                 </div>
-              </div>
-            </td>
-            <td>
-              <button ng-hide="editingPersons[person.id]" ng-click="modify(person)"><i class="svg-common svg-ic_edit_black_24px"></i></button>
-              <button ng-show="editingPersons[person.id]" ng-disabled="editPerson.name.$invalid" ng-click="save(person)"><i class="svg-common svg-ic_save_black_24px"></i></button>
-              <button ng-click="displayPersonRemovePopup()"><i class="svg-common svg-ic_close_black_24px"></i></button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="text-center">
-        <dir-pagination-controls max-size="4" boundary-links="true" template-url="views/dirPagination.tpl.html"></dir-pagination-controls>
-      </div>
-      <div ng-show="personRemovePopup" class="remove-person-popup">
-        <div class="container">
-          <h3 class="remove-person-heading">Remove person</h3><span class="remove-notify-text">Are you sure you want to remove this entry?</span>
-          <div class="confirmation-btns">
-            <button ng-click="cancelPersonRemovePopup()" class="cancel-remove">cancel</button>
-            <button ng-click="removePerson($index)" class="remove">yes</button>
+              </td>
+              <td>
+                <button ng-hide="editingPersons[person.id]" ng-click="modify(person)"><i class="svg-common svg-ic_edit_black_24px"></i></button>
+                <button ng-show="editingPersons[person.id]" ng-disabled="editPerson.name.$invalid" ng-click="save(person)"><i class="svg-common svg-ic_save_black_24px"></i></button>
+                <button ng-click="displayPersonRemovePopup(person)"><i class="svg-common svg-ic_close_black_24px"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text-center">
+          <dir-pagination-controls max-size="4" boundary-links="true" template-url="views/dirPagination.tpl.html"></dir-pagination-controls>
+        </div>
+        <div ng-show="personRemovePopupShown" class="remove-person-popup">
+          <div class="container">
+            <h3 class="remove-person-heading">Remove person</h3><span class="remove-notify-text">Are you sure you want to remove this entry?</span>
+            <div class="confirmation-btns">
+              <button ng-click="cancelPersonRemovePopup()" class="cancel-remove">cancel</button>
+              <button ng-click="removePerson()" class="remove">yes</button>
+            </div>
           </div>
         </div>
       </div>
@@ -96,7 +98,10 @@
     <script src="bower_components/angular-messages/angular-messages.js"></script>
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="js/controller.js"></script>
     <script src="bower_components/angularUtils-pagination/dirPagination.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/factories/person.js"></script>
+    <script src="js/services/person-list.js"></script>
+    <script src="js/controllers/controller.js"></script>
   </body>
 </html>

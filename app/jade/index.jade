@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-html#myDiv1(lang="en" ng-app="addPersonApp")
+html(lang="en" ng-app="PersonApp")
   head
     meta(charset="UTF-8")
     title Test task for Nord
@@ -13,11 +13,11 @@ html#myDiv1(lang="en" ng-app="addPersonApp")
     link(rel="stylesheet", href="css/styles.css")
     link(rel="stylesheet", href="bower_components/bootstrap/dist/css/bootstrap.css")
 
-  body(ng-controller="PersonListCtrl")
+  body
     header
       i.s-global.s-logo
 
-    .container
+    .container(ng-controller="AddPersonCtrl")
       h3.add-person-heading Add a person
       form(name="personForm" ng-submit="submitForm(personForm.$valid); personForm.$setPristine()" novalidate).css-form.add-person-form
         .form-group(ng-class="{'has-error has-feedback': personForm.name.$invalid && !personForm.name.$pristine, 'has-success has-feedback': personForm.name.$valid && !personForm.name.$pristine}")
@@ -27,80 +27,84 @@ html#myDiv1(lang="en" ng-app="addPersonApp")
           span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="personForm.name.$valid && !personForm.name.$pristine" aria-hidden="true")
           span.glyphicon.glyphicon-remove.form-control-feedback(ng-show="personForm.name.$invalid && !personForm.name.$pristine" aria-hidden="true")
         .form-group(ng-class="{'has-success has-feedback': personForm.gender.$valid}")
-          select(ng-options="genderOpt.value for genderOpt in genderOpts" name="gender" ng-model="gender" required).form-control
+          select(ng-options="value for (option, value) in genderOptions" name="gender" ng-model="gender" required).form-control
             option(value="" disabled selected) Gender
           i.svg-common.svg-select-arrows
           span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="personForm.gender.$valid" aria-hidden="true")
         .form-group(ng-class="{'has-error has-feedback': personForm.age.$invalid && !personForm.age.$pristine, 'has-success has-feedback': personForm.age.$valid && !personForm.age.$pristine}")
-          select(ng-options="ageOpt.value for ageOpt in ageOpts" name="age" ng-model="age" required).form-control
+          select(ng-options="value for (option, value) in ageOptions" name="age" ng-model="age" required).form-control
             option(value="" disabled selected) Age
           i.svg-common.svg-select-arrows
           span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="personForm.age.$valid" aria-hidden="true")
         button(type="submit" ng-disabled="personForm.$invalid").btn.btn-default.add-person-btn
           i.svg-common.svg-ic_add_black_36px
 
+      div(ng-controller="PersonListCtrl")
+        table.person-table.table.table-striped.table-hover
+          thead
+            tr
+              th
+                a(href="" ng-click="sortType = 'name'; sortReverse = !sortReverse") Name
+                  i.svg-common.svg-ic_sort_black_24px
+              th
+                a(href="" ng-click="sortType = 'gender'; sortReverse = !sortReverse") Gender
+                  i.svg-common.svg-ic_sort_black_24px
+              th 
+                a(href="" ng-click="sortType = 'age'; sortReverse = !sortReverse") Age
+                  i.svg-common.svg-ic_sort_black_24px
+              th
+          tbody
+            tr(dir-paginate="person in persons | orderBy:sortType:sortReverse | itemsPerPage: pageSize" current-page="currentPage")
+              td
+                span(ng-hide="editingPersons[person.id]" ng-click="modify(person)") {{person.name}}
+                div(ng-show="editingPersons[person.id]" ng-form name="editPerson" novalidate).css-form
+                  .form-group(ng-class="{'has-error has-feedback': editPerson.name.$invalid, 'has-success has-feedback': editPerson.name.$valid}")
+                    input(ng-show="editingPersons[person.id]" type="text" name="name" ng-model="person.name" ng-minlength="3" ng-maxlength="10" ng-pattern="textval" required).form-control
+                    .help-block(ng-messages="editPerson.name.$error")
+                      div(ng-messages-include="views/validation_messages/textInput.html")
+                    span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="editPerson.name.$valid" aria-hidden="true")
+                    span.glyphicon.glyphicon-remove.form-control-feedback(ng-show="editPerson.name.$invalid" aria-hidden="true")
+              td 
+                span(ng-hide="editingPersons[person.id]" ng-click="modify(person)") {{person.gender}}
+                div(ng-show="editingPersons[person.id]" ng-form name="editPersonGender" novalidate).css-form
+                  .form-group(ng-class="{'has-success has-feedback': editPersonGender.gender.$valid}")
+                    select(ng-show="editingPersons[person.id]" ng-options="value for (option, value) in genderOptions" name="gender" ng-model="person.gender").form-control
+                      option(value="" disabled selected) {{person.gender}}
+                    i.svg-common.svg-select-arrows
+              td
+                span(ng-hide="editingPersons[person.id]" ng-click="modify(person)") {{person.age}}
+                div(ng-show="editingPersons[person.id]" ng-form name="editPersonAge" novalidate).css-form
+                  .form-group(ng-class="{'has-success has-feedback': editPersonAge.age.$valid}")
+                    select(ng-show="editingPersons[person.id]" ng-options="value for (option, value) in ageOptions" name="age" ng-model="person.age" required).form-control
+                      option(value="" disabled selected) {{person.age}}
+                    i.svg-common.svg-select-arrows
+              td
+                button(ng-hide="editingPersons[person.id]" ng-click="modify(person)")
+                  i.svg-common.svg-ic_edit_black_24px
+                button(ng-show="editingPersons[person.id]" ng-disabled="editPerson.name.$invalid" ng-click="save(person)")
+                  i.svg-common.svg-ic_save_black_24px
+                button(ng-click="displayPersonRemovePopup(person)")
+                  i.svg-common.svg-ic_close_black_24px
 
-      table.person-table.table.table-striped.table-hover
-        thead
-          tr
-            th
-              a(href="" ng-click="sortType = 'name'; sortReverse = !sortReverse") Name
-                i.svg-common.svg-ic_sort_black_24px
-            th
-              a(href="" ng-click="sortType = 'gender.value'; sortReverse = !sortReverse") Gender
-                i.svg-common.svg-ic_sort_black_24px
-            th 
-              a(href="" ng-click="sortType = 'age.value'; sortReverse = !sortReverse") Age
-                i.svg-common.svg-ic_sort_black_24px
-            th
-        tbody
-          tr(dir-paginate="person in persons | orderBy:sortType:sortReverse | itemsPerPage: pageSize" current-page="currentPage")
-            td
-              span(ng-hide="editingPersons[person.id]" ng-click="modify(person)") {{person.name}}
-              div(ng-show="editingPersons[person.id]" ng-form name="editPerson" novalidate).css-form
-                .form-group(ng-class="{'has-error has-feedback': editPerson.name.$invalid, 'has-success has-feedback': editPerson.name.$valid}")
-                  input(ng-show="editingPersons[person.id]" type="text" name="name" ng-model="person.name" ng-minlength="3" ng-maxlength="10" ng-pattern="textval" required).form-control
-                  .help-block(ng-messages="editPerson.name.$error")
-                    div(ng-messages-include="views/validation_messages/textInput.html")
-                  span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="editPerson.name.$valid" aria-hidden="true")
-                  span.glyphicon.glyphicon-remove.form-control-feedback(ng-show="editPerson.name.$invalid" aria-hidden="true")
-            td 
-              span(ng-hide="editingPersons[person.id]" ng-click="modify(person)") {{person.gender.value}}
-              div(ng-show="editingPersons[person.id]" ng-form name="editPersonGender" novalidate).css-form
-                .form-group(ng-class="{'has-success has-feedback': editPersonGender.gender.$valid}")
-                  select(ng-show="editingPersons[person.id]" ng-options="genderOpt.value for genderOpt in genderOpts" name="gender" ng-model="person.gender").form-control
-                    option(value="" disabled selected) {{person.gender.value}}
-                  i.svg-common.svg-select-arrows
-            td
-              span(ng-hide="editingPersons[person.id]" ng-click="modify(person)") {{person.age.value}}
-              div(ng-show="editingPersons[person.id]" ng-form name="editPersonAge" novalidate).css-form
-                .form-group(ng-class="{'has-success has-feedback': editPersonAge.age.$valid}")
-                  select(ng-show="editingPersons[person.id]" ng-options="ageOpt.value for ageOpt in ageOpts" name="age" ng-model="person.age" required).form-control
-                    option(value="" disabled selected) {{person.age.value}}
-                  i.svg-common.svg-select-arrows
-            td
-              button(ng-hide="editingPersons[person.id]" ng-click="modify(person)")
-                i.svg-common.svg-ic_edit_black_24px
-              button(ng-show="editingPersons[person.id]" ng-disabled="editPerson.name.$invalid" ng-click="save(person)")
-                i.svg-common.svg-ic_save_black_24px
-              button(ng-click="displayPersonRemovePopup()")
-                i.svg-common.svg-ic_close_black_24px
+        div.text-center
+          dir-pagination-controls(max-size="4" boundary-links="true" template-url="views/dirPagination.tpl.html")
 
-      div.text-center
-        dir-pagination-controls(max-size="4" boundary-links="true" template-url="views/dirPagination.tpl.html")
-
-      .remove-person-popup(ng-show="personRemovePopup")
-        .container
-          h3.remove-person-heading Remove person
-          span.remove-notify-text Are you sure you want to remove this entry?
-          .confirmation-btns
-            button.cancel-remove(ng-click="cancelPersonRemovePopup()") cancel
-            button.remove(ng-click="removePerson($index)") yes
+        .remove-person-popup(ng-show="personRemovePopupShown")
+          .container
+            h3.remove-person-heading Remove person
+            span.remove-notify-text Are you sure you want to remove this entry?
+            .confirmation-btns
+              button.cancel-remove(ng-click="cancelPersonRemovePopup()") cancel
+              button.remove(ng-click="removePerson()") yes
 
     //- Javascript
     script(src="bower_components/angular/angular.js")
     script(src="bower_components/angular-messages/angular-messages.js")
     script(src="bower_components/jquery/dist/jquery.js")
     script(src="bower_components/bootstrap/dist/js/bootstrap.js")
-    script(src='js/controller.js')
     script(src="bower_components/angularUtils-pagination/dirPagination.js")
+    script(src='js/app.js')
+    script(src="js/factories/person.js")
+    script(src="js/services/person-list.js")
+    script(src="js/controllers/controller.js")
+    
