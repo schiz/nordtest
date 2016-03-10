@@ -10,7 +10,7 @@
 5. Build project `gulp watch`
 
 ## Test task checkpoints
-- Generate 100 users containing randomized values for the following properties: id (string), name (string), gender (male or female), and age (number). **Description :** Separate service (PersonsService) stores list of users and method .create(), that unshifts the list with new users, created by factory that accepts args: new PersonFactory(name, gender, age)
+- **Task :** Generate 100 users containing randomized values for the following properties: id (string), name (string), gender (male or female), and age (number). **Description :** Separate service (PersonsService) stores list of users and method .create(), that unshifts the list with new users, created by factory that accepts args: new PersonFactory(name, gender, age)
 - Render a table that displays the users on individual rows
 - Create a form for adding new users to the table (remember to validate the form)
 - Paginate the data so that each page contains 20 users
