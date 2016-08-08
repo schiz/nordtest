@@ -2,7 +2,7 @@
 Person list application in AngularJS 1.5.0
 ![alt text](https://github.com/schiz/nordtest/raw/master/personlist.png "Person list app")
 
-## Instructrions
+## Instructions
 
 1. Download project `git clone https://github.com/schiz/nordtest.git`
 2. Move to project directory `cd nordtest` 
